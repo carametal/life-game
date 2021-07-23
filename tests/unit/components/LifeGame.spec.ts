@@ -1,4 +1,4 @@
-import { shallowMount } from "@vue/test-utils"
+import { shallowMount } from '@vue/test-utils'
 import LifeGame from '@/components/LifeGame.vue'
 import LifeCell from '@/components/LifeCell.vue'
 

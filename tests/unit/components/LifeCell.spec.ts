@@ -1,4 +1,4 @@
-import { createLocalVue, shallowMount } from "@vue/test-utils"
+import { createLocalVue, shallowMount } from '@vue/test-utils'
 import LifeCell from "@/components/LifeCell.vue"
 
 describe('LifeCell.vue', (): void => {
