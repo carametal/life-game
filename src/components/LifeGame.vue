@@ -2,9 +2,13 @@
 <div>
   <table>
     <tr v-for="(row, i) in matrix" :key="i">
-      <td v-for="(cell) in row" :key="cell.col">
-        <span v-if="cell.hasLife">●</span>
-      </td>
+      <life-cell
+        v-for="(cell, j) in row"
+        :key="cell.col"
+        :row="i"
+        :col="j"
+        :hasLife="matrix[i][j]"
+      />
     </tr>
   </table>
 </div>
@@ -12,9 +16,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import LifeCell from '@/types/LifeCell'
+import LifeCell from '@/components/LifeCell.vue'
 
 export default Vue.extend({
+  components: { LifeCell },
   props: {
     cells: {
       type: Number,
@@ -26,7 +31,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      matrix: [] as Array<Array<LifeCell>>
+      matrix: [] as boolean[][]
     }
   },
   created() {
@@ -34,11 +39,11 @@ export default Vue.extend({
   },
   methods: {
     init() {
-      const rows = [];
+      const rows:boolean[][]  = [];
       for (let i=0; i<this.cells; i++) {
-        const row: LifeCell[] = [];
+        const row: boolean[] = [];
         for (let j=0; j<this.cells; j++) {
-          row.push(LifeCell.make(i, j, this.isMakeLife))
+          row.push(this.isMakeLife())
         }
         rows.push(row)
       }
