@@ -1,11 +1,13 @@
 <template>
-<table>
-  <tr v-for="(row, i) in matrix" :key="i">
-    <td v-for="(cell) in row" :key="cell.col">
-      <span v-if="cell.hasLife">●</span>
-    </td>
-  </tr>
-</table>
+<div>
+  <table>
+    <tr v-for="(row, i) in matrix" :key="i">
+      <td v-for="(cell) in row" :key="cell.col">
+        <span v-if="cell.hasLife">●</span>
+      </td>
+    </tr>
+  </table>
+</div>
 </template>
 
 <script lang="ts">
