@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <life-game
+    <home
       title="Life Game"
     />
   </div>
@@ -8,12 +8,12 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import LifeGame from '@/components/LifeGame.vue'
+import Home from '@/components/Home.vue'
 
 export default Vue.extend({
   name: 'App',
   components: {
-    LifeGame,
+    Home,
   }
 });
 </script>

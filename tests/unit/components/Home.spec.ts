@@ -1,10 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
-import LifeGame from '@/components/LifeGame.vue'
+import Home from '@/components/Home.vue'
 
-describe('LifeGame.vue', (): void => {
+describe('Home.vue', (): void => {
   it('render title', (): void => {
     const title = 'This is test titie!'
-    const wrapper = shallowMount(LifeGame, {
+    const wrapper = shallowMount(Home, {
       propsData: { title: title }
     })
     expect(wrapper.text()).toMatch(title)
