@@ -4,9 +4,7 @@
     <tr v-for="(row, i) in matrix" :key="i">
       <life-cell
         v-for="(cell, j) in row"
-        :key="cell.col"
-        :row="i"
-        :col="j"
+        :key="j"
         :hasLife="matrix[i][j]"
       />
     </tr>
