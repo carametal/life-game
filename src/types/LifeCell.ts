@@ -10,8 +10,7 @@ export default class LifeCell {
     this.hasLife = hasLife
   }
 
-  static makeRandom(row: number, col: number): LifeCell {
-    const randInt = Math.floor(Math.random() * 3)
-    return new LifeCell(row, col, randInt % 3 == 0) 
+  static make(row: number, col: number, func: () => boolean): LifeCell {
+    return new LifeCell(row, col, func()) 
   }
 }

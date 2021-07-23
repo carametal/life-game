@@ -38,12 +38,16 @@ export default Vue.extend({
       for (let i=0; i<this.cells; i++) {
         const row: LifeCell[] = [];
         for (let j=0; j<this.cells; j++) {
-          row.push(LifeCell.makeRandom(i, j))
+          row.push(LifeCell.make(i, j, this.isMakeLife))
         }
         rows.push(row)
       }
       this.matrix = rows
     },
+    isMakeLife() {
+      const randInt = Math.floor(Math.random() * 3)
+      return randInt % 3 == 0 
+    }
   }
 })
 </script>
