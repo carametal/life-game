@@ -24,6 +24,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import LifeCell from '@/components/LifeCell.vue'
+import LifeGameManager, { LifeGameManagerOptions } from '@/types/LifeGameManager'
 
 export default Vue.extend({
   components: { LifeCell },
@@ -73,64 +74,12 @@ export default Vue.extend({
     },
     next() {
       this.turn++
-      const newMatrix = this.matrix.map((row, i) => {
-        return row.map((hasLife, j) => this.hasLifeNext(hasLife, i, j))
-      })
-      this.matrix = newMatrix
-    },
-    hasLifeNext(hasLife: boolean, rowNum: number, colNum: number): boolean {
-      if(hasLife) {
-        return this.surviveNext(rowNum, colNum)
+      const options: LifeGameManagerOptions = {
+        matrix: this.matrix,
+        surviveMax: this.surviveMax,
+        surviveMin: this.surviveMin
       }
-      return this.bornNext(rowNum, colNum)
-    },
-    bornNext(rowNum: number, colNum: number): boolean {
-      return this.surviveMax === this.countLifeAround(rowNum, colNum)
-    },
-    surviveNext(rowNum: number, colNum: number) {
-      const count = this.countLifeAround(rowNum, colNum)
-      return this.surviveMax >= count && count >= this.surviveMin
-    },
-    // 今のところ使ってない。削除検討
-    dieNext(rowNum: number, colNum: number): boolean {
-      const count = this.countLifeAround(rowNum, colNum)
-      return count > this.surviveMax || this.surviveMin > count
-    },
-    countLifeAround(rowNum: number, colNum: number): number{
-      let count = 0
-      if (this.hasLifeUpLeft(rowNum, colNum)) count++
-      if (this.hasLifeUp(rowNum, colNum)) count++
-      if (this.hasLifeUpRight(rowNum, colNum)) count++
-      if (this.hasLifeLeft(rowNum, colNum)) count++
-      if (this.hasLifeRight(rowNum, colNum)) count++
-      if (this.hasLifeDownLeft(rowNum, colNum)) count++
-      if (this.hasLifeDown(rowNum, colNum)) count++
-      if (this.hasLifeDownRight(rowNum, colNum)) count++
-      return count
-    },
-    hasLifeUpLeft(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum-1]?.[colNum-1]
-    },
-    hasLifeUp(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum-1]?.[colNum]
-    },
-    hasLifeUpRight(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum-1]?.[colNum+1]
-    },
-    hasLifeLeft(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum][colNum-1]
-    },
-    hasLifeRight(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum][colNum+1]
-    },
-    hasLifeDownRight(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum+1]?.[colNum+1]
-    },
-    hasLifeDown(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum+1]?.[colNum]
-    },
-    hasLifeDownLeft(rowNum: number, colNum: number): boolean {
-      return this.matrix[rowNum+1]?.[colNum-1]
+      this.matrix = new LifeGameManager(options).next()
     },
     autoPlayStart(): void {
       this.intervalId = setInterval(() => {
