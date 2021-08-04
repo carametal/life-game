@@ -13,6 +13,7 @@
     <span>Turn {{turn}}</span>
   </div>
   <div>
+    <button @click="prev" :disabled="history.length <= 1">Prev</button>{{' '}}
     <button @click="next">Next</button>{{' '}}
     <button @click="init">Reset</button>{{' '}}
     <button @click="autoPlayStart" v-if="0 > intervalId">Auto Play</button>
@@ -51,6 +52,7 @@ export default Vue.extend({
       autoPlaying: false,
       intervalId: -1,
       turn: 1,
+      history: [] as boolean[][][]
     }
   },
   created() {
@@ -59,18 +61,23 @@ export default Vue.extend({
   methods: {
     init() {
       this.turn = 1
-      const rows: boolean[][] = Array(this.cells)
+      this.matrix = Array(this.cells)
         .fill(false)
         .map(() => {
           return Array(this.cells)
             .fill(false)
             .map(() => this.isMakeLife());
         })
-      this.matrix = rows
+      this.history.push(this.matrix)
     },
     isMakeLife() {
       const randInt = Math.floor(Math.random() * this.surviveMax)
       return randInt % this.surviveMax == 0 
+    },
+    prev() {
+      this.turn--
+      this.history.pop()
+      this.matrix = this.history[this.history.length-1]
     },
     next() {
       this.turn++
@@ -80,6 +87,7 @@ export default Vue.extend({
         surviveMin: this.surviveMin
       }
       this.matrix = new LifeGameManager(options).next()
+      this.history.push(this.matrix)
     },
     autoPlayStart(): void {
       this.intervalId = setInterval(() => {
