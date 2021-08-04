@@ -3,6 +3,8 @@
   <h1>{{ title }}</h1>
   <life-game
     :cells="cells"
+    :surviveMax="surviveMax"
+    :surviveMin="surviveMin"
   />
 </div>
 </template>
@@ -24,7 +26,9 @@ export default Vue.extend({
   },
   data() {
     return {
-      cells: 10,
+      cells: 20,
+      surviveMax: 3,
+      surviveMin: 2,
     }
   }
 })
@@ -33,5 +37,8 @@ export default Vue.extend({
 <style scoped>
 div.wrapper {
   text-align: center;
+}
+h1 {
+  margin-bottom:  10px;
 }
 </style>

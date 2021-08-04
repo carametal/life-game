@@ -9,6 +9,9 @@
       />
     </tr>
   </table>
+  <div style="text-align: center;">
+    <span>Turn {{turn}}</span>
+  </div>
   <div>
     <button @click="next">Next</button>{{' '}}
     <button @click="init">Reset</button>{{' '}}
@@ -31,6 +34,14 @@ export default Vue.extend({
       validator: (value) => {
         return 0 < value && value < 30
       }
+    },
+    surviveMax: {
+      type: Number,
+      required: true,
+    },
+    surviveMin: {
+      type: Number,
+      required: true,
     }
   },
   data() {
@@ -38,6 +49,7 @@ export default Vue.extend({
       matrix: [] as boolean[][],
       autoPlaying: false,
       intervalId: -1,
+      turn: 1,
     }
   },
   created() {
@@ -45,6 +57,7 @@ export default Vue.extend({
   },
   methods: {
     init() {
+      this.turn = 1
       const rows: boolean[][]  = [];
       for (let i=0; i<this.cells; i++) {
         const row: boolean[] = [];
@@ -56,10 +69,11 @@ export default Vue.extend({
       this.matrix = rows
     },
     isMakeLife() {
-      const randInt = Math.floor(Math.random() * 3)
-      return randInt % 3 == 0 
+      const randInt = Math.floor(Math.random() * this.surviveMax)
+      return randInt % this.surviveMax == 0 
     },
     next() {
+      this.turn++
       const newMatrix = this.matrix.map((row, i) => {
         return row.map((hasLife, j) => this.hasLifeNext(hasLife, i, j))
       })
@@ -72,16 +86,16 @@ export default Vue.extend({
       return this.bornNext(rowNum, colNum)
     },
     bornNext(rowNum: number, colNum: number): boolean {
-      return 3 === this.countLifeAround(rowNum, colNum)
+      return this.surviveMax === this.countLifeAround(rowNum, colNum)
     },
     surviveNext(rowNum: number, colNum: number) {
       const count = this.countLifeAround(rowNum, colNum)
-      return 3 >= count && count >= 2
+      return this.surviveMax >= count && count >= this.surviveMin
     },
     // 今のところ使ってない。削除検討
     dieNext(rowNum: number, colNum: number): boolean {
       const count = this.countLifeAround(rowNum, colNum)
-      return count > 3 || 2 > count
+      return count > this.surviveMax || this.surviveMin > count
     },
     countLifeAround(rowNum: number, colNum: number): number{
       let count = 0
@@ -139,10 +153,10 @@ table {
 }
 
 td {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border: solid 1px;
-  font-size: 2em;
+  font-size: 1em;
 }
 
 </style>
