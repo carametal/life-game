@@ -1,6 +1,6 @@
 <template>
 <div class="wrapper">
-  <h1>{{ title }}</h1>
+  <h1 style="margin: 0;">{{ title }}</h1>
   <life-game
     :cells="cells"
     :surviveMax="surviveMax"
@@ -26,7 +26,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      cells: 30,
+      cells: 50,
       surviveMax: 3,
       surviveMin: 2,
     }

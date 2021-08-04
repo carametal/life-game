@@ -16,8 +16,9 @@
     <button @click="prev" :disabled="history.length <= 1">Prev</button>{{' '}}
     <button @click="next">Next</button>{{' '}}
     <button @click="init">Reset</button>{{' '}}
-    <button @click="autoPlayStart" v-if="0 > intervalId">Auto Play</button>
-    <button @click="autoPlayStop" v-else>Stop</button>
+    <button @click="autoPlayStart" v-if="!autoPlaying">Auto Play</button>
+    <button @click="autoPlayStop" v-else>Stop</button>{{' '}}
+    <input v-model="autoPlayInterval" :disabled="autoPlaying" />
   </div>
 </div>
 </template>
@@ -46,10 +47,15 @@ export default Vue.extend({
   data() {
     return {
       matrix: [] as boolean[][],
-      autoPlaying: false,
       intervalId: -1,
       turn: 1,
-      history: [] as boolean[][][]
+      history: [] as boolean[][][],
+      autoPlayInterval: 1000,
+    }
+  },
+  computed: {
+    autoPlaying(): boolean {
+      return this.intervalId >= 0
     }
   },
   created() {
@@ -89,7 +95,7 @@ export default Vue.extend({
     autoPlayStart(): void {
       this.intervalId = setInterval(() => {
         this.next()
-      }, 1000)
+      }, this.autoPlayInterval)
     },
     autoPlayStop(): void {
       clearInterval(this.intervalId)
@@ -106,10 +112,9 @@ table {
 }
 
 td {
-  width: 20px;
-  height: 20px;
+  width: 10px;
+  height: 10px;
   border: solid 1px;
-  font-size: 0.5em;
 }
 
 </style>

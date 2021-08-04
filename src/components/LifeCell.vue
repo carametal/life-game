@@ -1,7 +1,5 @@
 <template>
-<td :style="style">
-  <span v-if="hasLife">●</span>
-</td>
+<td :style="style"></td>
 </template>
 
 
