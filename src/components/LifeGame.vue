@@ -33,9 +33,6 @@ export default Vue.extend({
     cells: {
       type: Number,
       required: true,
-      validator: (value) => {
-        return 0 < value && value < 30
-      }
     },
     surviveMax: {
       type: Number,
@@ -109,10 +106,10 @@ table {
 }
 
 td {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   border: solid 1px;
-  font-size: 1em;
+  font-size: 0.5em;
 }
 
 </style>

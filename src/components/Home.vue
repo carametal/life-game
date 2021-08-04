@@ -26,7 +26,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      cells: 20,
+      cells: 30,
       surviveMax: 3,
       surviveMin: 2,
     }
