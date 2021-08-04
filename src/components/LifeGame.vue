@@ -58,14 +58,13 @@ export default Vue.extend({
   methods: {
     init() {
       this.turn = 1
-      const rows: boolean[][]  = [];
-      for (let i=0; i<this.cells; i++) {
-        const row: boolean[] = [];
-        for (let j=0; j<this.cells; j++) {
-          row.push(this.isMakeLife())
-        }
-        rows.push(row)
-      }
+      const rows: boolean[][] = Array(this.cells)
+        .fill(false)
+        .map(() => {
+          return Array(this.cells)
+            .fill(false)
+            .map(() => this.isMakeLife());
+        })
       this.matrix = rows
     },
     isMakeLife() {
