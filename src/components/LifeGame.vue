@@ -9,7 +9,10 @@
       />
     </tr>
   </table>
-  <button @click="next">Next</button>
+  <div>
+    <button @click="next">Next</button>{{' '}}
+    <button @click="init">Reset</button>
+  </div>
 </div>
 </template>
 
