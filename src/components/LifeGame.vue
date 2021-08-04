@@ -13,12 +13,44 @@
     <span>Turn {{turn}}</span>
   </div>
   <div>
-    <button @click="prev" :disabled="history.length <= 1">Prev</button>{{' '}}
-    <button @click="next">Next</button>{{' '}}
-    <button @click="init">Reset</button>{{' '}}
-    <button @click="autoPlayStart" v-if="!autoPlaying">Auto Play</button>
-    <button @click="autoPlayStop" v-else>Stop</button>{{' '}}
-    <input v-model="autoPlayInterval" :disabled="autoPlaying" />
+    <div>
+      <input type="radio" value="manual" v-model="playType" />
+      <label>Manual</label>
+      <input type="radio" value="auto" v-model="playType" />
+      <label>Auto</label>
+    </div>
+  </div>
+  <div>
+    <button
+      @click="prev"
+      :disabled="disablePrevButton"
+    >Prev</button>{{' '}}
+    <button
+      @click="next"
+      :disabled="autoPlaying"
+    >Next</button>{{' '}}
+    <button
+      @click="init"
+      :disabled="autoPlaying"
+    >Reset</button>{{' '}}
+    <span v-show="playType === 'auto'">
+      <button
+        @click="autoPlayStart"
+        v-if="!autoPlaying"
+      >Auto Play</button>
+      <button
+        @click="autoPlayStop"
+        v-else
+        v-show="playType"
+      >Stop</button>{{' '}}
+    </span>
+    <div v-show="playType === 'auto'">
+      <label>Auto Play Ineterval</label>{{' '}}
+      <input
+        v-model="autoPlayInterval"
+        :disabled="autoPlaying"
+      />
+    </div>
   </div>
 </div>
 </template>
@@ -27,6 +59,8 @@
 import Vue from 'vue'
 import LifeCell from '@/components/LifeCell.vue'
 import LifeGameManager, { LifeGameManagerOptions } from '@/types/LifeGameManager'
+
+type PlayTime = 'manual' | 'auto'
 
 export default Vue.extend({
   components: { LifeCell },
@@ -51,12 +85,17 @@ export default Vue.extend({
       turn: 1,
       history: [] as boolean[][][],
       autoPlayInterval: 1000,
+      playType: 'auto' as PlayTime,
     }
   },
   computed: {
     autoPlaying(): boolean {
       return this.intervalId >= 0
-    }
+    },
+    disablePrevButton(): boolean {
+      return history.length <= 1
+        || this.autoPlaying
+    },
   },
   created() {
     this.init()
