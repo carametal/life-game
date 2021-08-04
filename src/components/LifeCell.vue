@@ -1,5 +1,5 @@
 <template>
-<td>
+<td :style="style">
   <span v-if="hasLife">●</span>
 </td>
 </template>
@@ -14,6 +14,16 @@ export default Vue.extend({
       type: Boolean,
       required: true,
     },
+  },
+  computed: {
+    style() {
+      if(this.hasLife) {
+        return {
+          'background-color': 'black'
+        }
+      }
+      return {}
+    }
   }
 })
 </script>
