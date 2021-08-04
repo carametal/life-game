@@ -24,7 +24,7 @@ export default Vue.extend({
   },
   data() {
     return {
-      cells: 7,
+      cells: 10,
     }
   }
 })

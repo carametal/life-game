@@ -11,7 +11,9 @@
   </table>
   <div>
     <button @click="next">Next</button>{{' '}}
-    <button @click="init">Reset</button>
+    <button @click="init">Reset</button>{{' '}}
+    <button @click="autoPlayStart" v-if="0 > intervalId">Auto Play</button>
+    <button @click="autoPlayStop" v-else>Stop</button>
   </div>
 </div>
 </template>
@@ -33,7 +35,9 @@ export default Vue.extend({
   },
   data() {
     return {
-      matrix: [] as boolean[][]
+      matrix: [] as boolean[][],
+      autoPlaying: false,
+      intervalId: -1,
     }
   },
   created() {
@@ -115,6 +119,15 @@ export default Vue.extend({
     hasLifeDownLeft(rowNum: number, colNum: number): boolean {
       return this.matrix[rowNum+1]?.[colNum-1]
     },
+    autoPlayStart(): void {
+      this.intervalId = setInterval(() => {
+        this.next()
+      }, 1000)
+    },
+    autoPlayStop(): void {
+      clearInterval(this.intervalId)
+      this.intervalId = -1
+    }
   }
 })
 </script>
