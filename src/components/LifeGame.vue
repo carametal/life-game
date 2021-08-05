@@ -93,7 +93,7 @@ export default Vue.extend({
       return this.intervalId >= 0
     },
     disablePrevButton(): boolean {
-      return history.length <= 1
+      return this.history.length <= 1
         || this.autoPlaying
     },
   },
@@ -103,6 +103,7 @@ export default Vue.extend({
   methods: {
     init() {
       this.turn = 1
+      this.history = []
       this.matrix = Array(this.cells)
         .fill(false)
         .map(() => {
@@ -151,8 +152,8 @@ table {
 }
 
 td {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border: solid 1px;
 }
 
